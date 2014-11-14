@@ -72,6 +72,7 @@ public class BindingExpressions {
         DoubleProperty radius = new SimpleDoubleProperty(2);
 
         DoubleBinding volumeOfSphere = new DoubleBinding() {
+            //我看不懂这个花括号括起来的是什么东西。方法实现？ instance initial block？
             {
                 super.bind(radius);
             }
