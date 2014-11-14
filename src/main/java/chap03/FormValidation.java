@@ -142,7 +142,7 @@ public class FormValidation extends Application {
         //---动作代码开始----------------------------------------------------------------------------------------------
         
         // user hits the enter key
-        passwordField.setOnAction(actionEvent -> {
+        passwordField.setOnAction(actionEvent -> { //当用户敲回车的时候，这个方法被调用
             if (GRANTED_ACCESS.get()) {
                 System.out.printf("User %s is granted access.\n", user.getUserName());
                 System.out.printf("User %s entered the password: %s\n", user.getUserName(), user.getPassword());
@@ -151,13 +151,14 @@ public class FormValidation extends Application {
             else {
                 deniedIcon.setVisible(true);
             }
-            ATTEMPTS.set(ATTEMPTS.add(1).get());
+            ATTEMPTS.set(ATTEMPTS.add(1).get()); //JavaFX property自增好复杂！
             System.out.println("Attempts: " + ATTEMPTS.get());
         });
         
-
+        
+        //注意这里的格式 - addListener((obv, ov, nv) -> .... 这是标准的ChangeListener
         // listener when the user types into the password field
-        passwordField.textProperty().addListener((obs, ov, nv) -> {
+        passwordField.textProperty().addListener((obs, ov, nv) -> { //每当passwordField的值改变，这个方法都会被调用。当用户敲对密码，不需要敲回车的时候，对号已经显示了。
             boolean granted = passwordField.getText().equals(MY_PASS);
             GRANTED_ACCESS.set(granted);
             if (granted) {
@@ -165,7 +166,7 @@ public class FormValidation extends Application {
             }
         });
 
-        
+        //注意这里的格式 - addListener((obv, ov, nv) -> .... 这是标准的ChangeListener
         // listener on number of attempts
         ATTEMPTS.addListener((obs, ov, nv) -> {
             if (MAX_ATTEMPTS == nv.intValue()) {
