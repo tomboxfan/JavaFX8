@@ -1,18 +1,12 @@
 package chap03;
 
-/**
- * Functional Interfaces.
- * @author cdea
- */
 public class FunctionalInterfaces {
+
     @FunctionalInterface
     interface MyFormula {
         double compute(double val1, double val2);
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         // assigning variables to functional interfaces
         MyFormula area = (height, width) -> height * width;

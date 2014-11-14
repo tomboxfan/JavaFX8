@@ -25,25 +25,31 @@ import javafx.stage.StageStyle;
 
 /**
  * A login form to demonstrate lambdas, properties and bindings.
- * @author cdea
  */
 public class FormValidation extends Application {
-
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
     private final static String MY_PASS = "password1";
     private final static BooleanProperty GRANTED_ACCESS = new SimpleBooleanProperty(false);
     private final static int MAX_ATTEMPTS = 3;
     private final IntegerProperty ATTEMPTS = new SimpleIntegerProperty(0);
 
     @Override public void start(Stage primaryStage) {
-        // create a model representing a user
-        User user = new User();
 
-        // create a transparent stage
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
-
+        //与以往的程序不同。平时都是set title, 这里没有set title, 而是设置stage是透明的，这句话有点儿看头。
+        primaryStage.initStyle(StageStyle.TRANSPARENT); // create a transparent stage
         Group root = new Group();
         Scene scene = new Scene(root, 320, 112, Color.rgb(0, 0, 0, 0));
-        primaryStage.setScene(scene);
+        
+        
+        
+        
+
+        
+        // create a model representing a user
+        User user = new User();
 
         // all text, borders, svg paths will use white
         Color foregroundColor = Color.rgb(255, 255, 255, .9);
@@ -149,11 +155,14 @@ public class FormValidation extends Application {
         formLayout.setLayoutY(12);
 
         root.getChildren().addAll(background, formLayout);
-
+        
+        
+        
+        
+        
+        
+        
+        primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
