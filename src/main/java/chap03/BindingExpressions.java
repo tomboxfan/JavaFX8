@@ -9,35 +9,48 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * 这是一个很重要的程序，讲解JavaFX Binding的作用
+ */
 public class BindingExpressions {
 
     public static void main(String[] args) {
         System.out.println("Chapter 3 Binding Expressions\n");
 
+        
+        System.out.println("------------------------------------------------------------------------------------------------------------");
         System.out.println("Binding a Contact bean [Bi-directional binding]");
         Contact contact = new Contact("John", "Doe");
         StringProperty fname = new SimpleStringProperty();
         fname.bindBidirectional(contact.firstNameProperty());
         StringProperty lname = new SimpleStringProperty();
         lname.bindBidirectional(contact.lastNameProperty());
+        
 
-        System.out.println("Current - StringProperty values   : " + fname.getValue() + " " + lname.getValue());
-        System.out.println("Current - Contact values          : " + contact.getFirstName() + " " + contact.getLastName());
+        System.out.println("StringProperty values   : " + fname.getValue() + " " + lname.getValue());
+        System.out.println("Contact values          : " + contact.getFirstName() + " " + contact.getLastName());
 
         System.out.println("Modifying StringProperty values");
         fname.setValue("Jane");
         lname.setValue("Deer");
 
-        System.out.println("After - StringProperty values   : " + fname.getValue() + " " + lname.getValue());
-        System.out.println("After - Contact values          : " + contact.getFirstName() + " " + contact.getLastName());
+        System.out.println("StringProperty values   : " + fname.getValue() + " " + lname.getValue());
+        System.out.println("Contact values          : " + contact.getFirstName() + " " + contact.getLastName());
+        
+        System.out.println("Modifying Contact values");
+        contact.setFirstName("Tom");
+        contact.setLastName("Fan");
+        
+        System.out.println("StringProperty values   : " + fname.getValue() + " " + lname.getValue());
+        System.out.println("Contact values          : " + contact.getFirstName() + " " + contact.getLastName());
+        System.out.println("------------------------------------------------------------------------------------------------------------");  
+        
 
-        System.out.println();
         System.out.println("A Area of a Rectangle [High level Fluent API]");
 
         // Area = width * height
         IntegerProperty width = new SimpleIntegerProperty(10);
         IntegerProperty height = new SimpleIntegerProperty(10);
-
         NumberBinding area = width.multiply(height);
 
         System.out.println("Current - Width and Height     : " + width.get() + " " + height.get());
@@ -49,15 +62,16 @@ public class BindingExpressions {
 
         System.out.println("After - Width and Height     : " + width.get() + " " + height.get());
         System.out.println("After - Area of the Rectangle: " + area.getValue());
+        System.out.println("------------------------------------------------------------------------------------------------------------");        
 
-        System.out.println();
+
+        
         System.out.println("A Volume of a Sphere [low level API]");
 
         // volume = 4/3 * pi r^3
         DoubleProperty radius = new SimpleDoubleProperty(2);
 
-        DoubleBinding volumeOfSphere;
-        volumeOfSphere = new DoubleBinding() {
+        DoubleBinding volumeOfSphere = new DoubleBinding() {
             {
                 super.bind(radius);
             }
@@ -74,7 +88,7 @@ public class BindingExpressions {
         radius.set(50);
         System.out.println("After - radius for Sphere: " + radius.get());
         System.out.println("After - volume for Sphere: " + volumeOfSphere.get());
-
+        System.out.println("------------------------------------------------------------------------------------------------------------");                
     }
 }
 
