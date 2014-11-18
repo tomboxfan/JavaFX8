@@ -34,21 +34,21 @@ public class HBoxExample extends Application {
         hbox.setPadding(new Insets(1)); // padding是整个HBox周围的一圈
         //--------------------------------------------------------
         
-        //step 2) ----定义添加到hbox的4个rectangle-------------------------------------
+        //step 2) ----定义添加到hbox的4个rectangle-----------------------------
         Rectangle r1 = new Rectangle(10, 10);
         HBox.setMargin(r1, new Insets(2, 2, 2, 2)); //Margin是特指某一个node周围的一圈
         Rectangle r2 = new Rectangle(20, 20);
         Rectangle r3 = new Rectangle(5, 20);
         Rectangle r4 = new Rectangle(20, 5);
-        //-------------------------------------------------------------------------
+        //----------------------------------------------------------------
         
         //step 3) ----将4个rectangle添加到hbox中---------------------------------------
         hbox.getChildren().addAll(r1, r2, r3, r4);
         //-------------------------------------------------------------------------
 
-        //step 3) ----将hbox添加到group中---------------------------------------------
+        //step 4) ----将hbox添加到group中---------------------------------------------
         group.getChildren().add(hbox);
-      //---------------------------------------------------------------------------
+        //------------------------------------------------------------------------
 
         primaryStage.setOnShown((WindowEvent we) -> {
             System.out.println("hbox width  " + hbox.getBoundsInParent().getWidth());  //宽度=76. 4个rectangle - (2 + 10 + 2) + 20 + 5 + 20 = 59; 3个spacing - 5*3 = 15; padding左右各1. 一共76
