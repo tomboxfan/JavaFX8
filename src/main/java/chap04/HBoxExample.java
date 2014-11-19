@@ -15,15 +15,9 @@ public class HBoxExample extends Application {
         launch(args);
     }    
     @Override public void start(Stage primaryStage) {
-        
-        //1) 第1层 - 最上面是group - 你所有的东西都添加到group里面
-        Group group = new Group();
-        
-        //2) 第2层 - group下面是scene
-        Scene scene = new Scene(group, 300, 250);
-        
-        //3) 第3层 - scene下面才是传入的primaryStage
-        primaryStage.setScene(scene);
+        Group root = new Group();                      //1) 第1层 - Group做root - 你所有的东西都放到Group里面                       
+        Scene scene = new Scene(root, 300, 250);       //2) 第2层 - Group放在scene里面                                                
+        primaryStage.setScene(scene);                  //3) 第3层 - scene放在传入的primaryStage里面                                      
         primaryStage.setTitle("HBox Example");        
 //从这往上，全都忽略----------------------------------------------------------------------------------------                
         
@@ -47,7 +41,7 @@ public class HBoxExample extends Application {
         //-------------------------------------------------------------------------
 
         //step 4) ----将hbox添加到group中---------------------------------------------
-        group.getChildren().add(hbox);
+        root.getChildren().add(hbox);
         //------------------------------------------------------------------------
 
         primaryStage.setOnShown((WindowEvent we) -> {

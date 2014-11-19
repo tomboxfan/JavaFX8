@@ -44,9 +44,10 @@ public class FormValidation extends Application {
     private final IntegerProperty ATTEMPTS = new SimpleIntegerProperty(0); //记录当前user已经尝试登陆几次了
 
     @Override public void start(Stage primaryStage) {
-        primaryStage.initStyle(StageStyle.TRANSPARENT); // create a transparent stage //与以往的程序不同。平时都是set title, 这里没有set title, 而是设置stage是透明的，这句话有点儿看头。
-        Group root = new Group();
-        Scene scene = new Scene(root, 320, 112, Color.rgb(0, 0, 0, 0));
+        Group root = new Group();                                           //1) 第1层 - Group做root - 你所有的东西都放到Group里面                     
+        Scene scene = new Scene(root, 320, 112, Color.rgb(0, 0, 0, 0));     //2) 第2层 - Group放在scene里面                                    
+        primaryStage.setScene(scene);                                       //3) 第3层 - scene放在传入的primaryStage里面                          
+        primaryStage.initStyle(StageStyle.TRANSPARENT);                     //与以往的程序不同。平时都是set title, 这里没有set title, 而是设置stage是透明的，这句话有点儿看头。
 //--这之前除了变量定义部分，还有给primaryStage设置透明，仍旧算是boilerplate code -------------------------------------------
         
         
@@ -192,7 +193,6 @@ public class FormValidation extends Application {
         
         
 //从这往下，全都忽略----------------------------------------------------------------------------------------            
-        primaryStage.setScene(scene);
         primaryStage.show();
     }
 }

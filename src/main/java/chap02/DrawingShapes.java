@@ -13,9 +13,10 @@ public class DrawingShapes extends Application {
     }
     @Override
     public void start(Stage primaryStage) {
+        Group root = new Group();                                    //1) 第1层 - Group做root - 你所有的东西都放到Group里面                    
+        Scene scene = new Scene(root, 306, 550, Color.WHITE);        //2) 第2层 - Group放在scene里面                                   
+        primaryStage.setScene(scene);                                //3) 第3层 - scene放在传入的primaryStage里面                         
         primaryStage.setTitle("Chapter 2 Drawing Shapes");
-        Group root = new Group();
-        Scene scene = new Scene(root, 306, 550, Color.WHITE);
 //从这往上，全都忽略----------------------------------------------------------------------------------------     
         
         
@@ -135,7 +136,6 @@ public class DrawingShapes extends Application {
         
         
 //从这往下，全都忽略----------------------------------------------------------------------------------------             
-        primaryStage.setScene(scene);
         primaryStage.show();
     }
 }
