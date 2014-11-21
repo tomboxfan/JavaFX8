@@ -3,7 +3,6 @@ package chap04;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -38,46 +37,56 @@ public class HeroPicker extends Application {
         gridpane.setPadding(new Insets(5));
         gridpane.setHgap(10);
         gridpane.setVgap(10);
-        ColumnConstraints column1 = new ColumnConstraints(150, 150, Double.MAX_VALUE);
-        ColumnConstraints column2 = new ColumnConstraints(50);
-        ColumnConstraints column3 = new ColumnConstraints(150, 150, Double.MAX_VALUE);
-        column1.setHgrow(Priority.ALWAYS);
-        column3.setHgrow(Priority.ALWAYS);
+        
+        ColumnConstraints column1 = new ColumnConstraints(150, 150, Double.MAX_VALUE);  //最小，最合适都是150宽，当然如果你UI变化，那么我可以无限宽
+        column1.setHgrow(Priority.ALWAYS);                                              //高度我无限高
+        
+        ColumnConstraints column2 = new ColumnConstraints(50);                          //无论UI怎么大小变化，第2列必须一直宽50
+        
+        ColumnConstraints column3 = new ColumnConstraints(150, 150, Double.MAX_VALUE);  //最小，最合适都是150宽，当然如果你UI变化，那么我可以无限宽
+        column3.setHgrow(Priority.ALWAYS);                                              //高度我无限高
+        
         gridpane.getColumnConstraints().addAll(column1, column2, column3);
         
         // Candidates label
-        Label candidatesLbl = new Label("Candidates");
+        Label candidatesLbl = new Label("Candidates");              //gridPane上 (0,0)坐标加一个label         
         GridPane.setHalignment(candidatesLbl, HPos.CENTER);
         gridpane.add(candidatesLbl, 0, 0);
-        
+                                                                    //明显(1,0)是空着的
         // Heroes label
-        Label heroesLbl = new Label("Heroes");
-        gridpane.add(heroesLbl, 2, 0);
+        Label heroesLbl = new Label("Heroes");                      //gridPane上 (2,0)坐标加一个label
         GridPane.setHalignment(heroesLbl, HPos.CENTER);
+        gridpane.add(heroesLbl, 2, 0);
+
+        
+        
+        //------------这段代码是这个程序的重点！！！！！-------------------------------------
+        //heros和candidates是两个ObservableList
+        //直接使用ObservableList创建的ListVIew可以实时监测list里面的变化，reflect到UI上
         
         // Candidates
         final ObservableList<String> candidates = FXCollections.observableArrayList("Superman", "Spiderman", "Wolverine", "Police", "Fire Rescue", "Soldiers", "Dad & Mom", "Doctor", "Politician", "Pastor", "Teacher");
         final ListView<String> candidatesListView = new ListView<>(candidates);
-        gridpane.add(candidatesListView, 0, 1);
+        gridpane.add(candidatesListView, 0, 1);                                         //gridPane上 (0,1)坐标加candidatesListView 
         
         // heros
         final ObservableList<String> heroes = FXCollections.observableArrayList();
-        final ListView<String> heroListView = new ListView<>(heroes);
-        gridpane.add(heroListView, 2, 1);
+        final ListView<String> heroListView = new ListView<>(heroes);                   
+        gridpane.add(heroListView, 2, 1);                                               //gridPane上 (2,1)坐标加heroListView
         
         // select heroes
         Button sendRightButton = new Button(" > ");
-        sendRightButton.setOnAction((ActionEvent event) -> {
+        sendRightButton.setOnAction(event -> {
             String potential = candidatesListView.getSelectionModel().getSelectedItem();
             if (potential != null) {
-                candidatesListView.getSelectionModel().clearSelection();
-                candidates.remove(potential);
-                heroes.add(potential);
+                candidatesListView.getSelectionModel().clearSelection();                //如果选中的potential不为空，那么首先清掉选择
+                candidates.remove(potential);                                           //然后把potential从candidates list里面拿掉
+                heroes.add(potential);                                                  //放到heros list里面
             }
         });
         // deselect heroes
         Button sendLeftButton = new Button(" < ");
-        sendLeftButton.setOnAction((ActionEvent event) -> {
+        sendLeftButton.setOnAction(event -> {
             String notHero = heroListView.getSelectionModel().getSelectedItem();
             if (notHero != null) {
                 heroListView.getSelectionModel().clearSelection();
@@ -85,8 +94,11 @@ public class HeroPicker extends Application {
                 candidates.add(notHero);
             }
         });
-        VBox vbox = new VBox(5);
-        vbox.getChildren().addAll(sendRightButton, sendLeftButton);
+        //-------------------------------------------------------------------------
+        
+        
+        VBox vbox = new VBox(5);                                                        //gridPane(1,1)坐标上加一个VBox
+        vbox.getChildren().addAll(sendRightButton, sendLeftButton);                     //VBox里面放的是两个按钮
         gridpane.add(vbox, 1, 1);
         
         root.setCenter(gridpane);
