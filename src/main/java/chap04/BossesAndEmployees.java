@@ -18,7 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class BossesAndEmployees extends Application {
     public static void main(String[] args) {
@@ -32,70 +31,66 @@ public class BossesAndEmployees extends Application {
 //从这往上，全都忽略----------------------------------------------------------------------------------------                  
         
         // create a grid pane
-        GridPane gridpane = new GridPane();
-        gridpane.setPadding(new Insets(5));
-        gridpane.setHgap(10);
-        gridpane.setVgap(10);
+        GridPane gridpane = new GridPane(); 
+        gridpane.setPadding(new Insets(5));     //外面有一个5公分的框框
+        gridpane.setHgap(10);                   //水平cell间隔10公分
+        gridpane.setVgap(10);                   //垂直cell间隔10公分
         root.setCenter(gridpane);
         
         
         // candidates label
-        Label candidatesLbl = new Label("Boss");
-        GridPane.setHalignment(candidatesLbl, HPos.CENTER);
-        gridpane.add(candidatesLbl, 0, 0);
+        createLabel("Boss", gridpane, 0, 0);
         
         // List of leaders
-        ObservableList<Person> leaders = getPeople();
-        final ListView<Person> leaderListView = new ListView<>(leaders);
-        leaderListView.setPrefWidth(150);
-        leaderListView.setMaxWidth(Double.MAX_VALUE);
-        leaderListView.setPrefHeight(150);
+        ObservableList<Person> observableList = getPeople();                           //ObservableList和ListView绝对是绝配
+        ListView<Person> listView = new ListView<>(observableList);
+        listView.setPrefWidth(150);
+        listView.setMaxWidth(Double.MAX_VALUE);
+        listView.setPrefHeight(150);
+        
         // display first and last name with tooltip using alias
-        leaderListView.setCellFactory(new Callback<ListView<Person>, ListCell<Person>>() {
-            @Override public ListCell<Person> call(ListView<Person> param) {
-                final Label leadLbl = new Label();
-                final Tooltip tooltip = new Tooltip();
-                final ListCell<Person> cell = new ListCell<Person>() {
-                    @Override public void updateItem(Person item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null) {
-                            leadLbl.setText(item.getAliasName());
-                            setText(item.getFirstName() + " " + item.getLastName());
-                            tooltip.setText(item.getAliasName());
-                            setTooltip(tooltip);
+        listView.setCellFactory(param -> { //param是ListView, 这个方法必须要传出一个ListCell
+                    final Label label = new Label();
+                    final Tooltip tooltip = new Tooltip();
+                    final ListCell<Person> listCell = new ListCell<Person>() {
+                        @Override public void updateItem(Person item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (item != null) {
+                                label.setText(item.getAliasName());
+                                setText(item.getFirstName() + " " + item.getLastName());
+                                tooltip.setText(item.getAliasName());
+                                setTooltip(tooltip);
+                            }
                         }
-                    }
-                }; // ListCell
-                return cell;
-            }
-        }); // setCellFactory
-        gridpane.add(leaderListView, 0, 1);
-        Label emplLbl = new Label("Employees");
-        gridpane.add(emplLbl, 2, 0);
-        GridPane.setHalignment(emplLbl, HPos.CENTER);
-        final TableView<Person> employeeTableView = new TableView<>();
-        employeeTableView.setPrefWidth(300);
-        final ObservableList<Person> teamMembers = FXCollections.observableArrayList();
-        employeeTableView.setItems(teamMembers);
-        TableColumn<Person, String> aliasNameCol = new TableColumn<>("Alias");
-        aliasNameCol.setEditable(true);
-        aliasNameCol.setCellValueFactory(new PropertyValueFactory("aliasName"));
-        aliasNameCol.setPrefWidth(employeeTableView.getPrefWidth() / 3);
-        TableColumn<Person, String> firstNameCol = new TableColumn<>("First Name");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
-        firstNameCol.setPrefWidth(employeeTableView.getPrefWidth() / 3);
-        TableColumn<Person, String> lastNameCol = new TableColumn<>("Last Name");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory("lastName"));
-        lastNameCol.setPrefWidth(employeeTableView.getPrefWidth() / 3);
-        employeeTableView.getColumns().setAll(aliasNameCol, firstNameCol, lastNameCol);
-        gridpane.add(employeeTableView, 2, 1);
+                    };
+                    return listCell;
+                }
+        );
+        gridpane.add(listView, 0, 1);
+        
+        createLabel("Employees", gridpane, 2, 0);
+        
+        TableView<Person> tableView = new TableView<>();
+        tableView.setPrefWidth(300);
+        ObservableList<Person> observableListTeamMember = FXCollections.observableArrayList();
+        tableView.setItems(observableListTeamMember);
+        
+        TableColumn<Person, String> aliasColumn = createTableColumn("Alias", "aliasName", tableView.getPrefWidth() / 3);  
+        TableColumn<Person, String> firstNameColumn = createTableColumn("First Name", "firstName", tableView.getPrefWidth() / 3);  
+        TableColumn<Person, String> lastNameColumn = createTableColumn("Last Name", "lastName", tableView.getPrefWidth() / 3);  
+        tableView.getColumns().setAll(aliasColumn, firstNameColumn, lastNameColumn);
+        gridpane.add(tableView, 2, 1);
+        
         // selection listening
-        leaderListView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Person> observable, Person oldValue, Person newValue) -> {
+        listView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Person> observable, Person oldValue, Person newValue) -> {
             if (observable != null && observable.getValue() != null) {
-                teamMembers.clear();
-                teamMembers.addAll(observable.getValue().employeesProperty());
+                observableListTeamMember.clear();
+                observableListTeamMember.addAll(observable.getValue().employeesProperty());
+                //或者
+                //observableListTeamMember.addAll(newValue.employeesProperty());
             }
         });
+        
         primaryStage.show();
     }
 
@@ -107,7 +102,7 @@ public class BossesAndEmployees extends Application {
         docX.employeesProperty().add(new Person("Storm", "Ororo", "Munroe"));
         Person magneto = new Person("Magneto", "Max", "Eisenhardt");
         magneto.employeesProperty().add(new Person("Juggernaut", "Cain", "Marko"));
-        magneto.employeesProperty().add(new Person("Mystique", "Raven", "Darkh枚lme"));
+        magneto.employeesProperty().add(new Person("Mystique", "Raven", "Darkhlme"));
         magneto.employeesProperty().add(new Person("Sabretooth", "Victor", "Creed"));
         Person biker = new Person("Mountain Biker", "Jonathan", "Gennick");
         biker.employeesProperty().add(new Person("Josh", "Joshua", "Juneau"));
@@ -121,5 +116,18 @@ public class BossesAndEmployees extends Application {
         return people;
     }
 
-
+    
+    private void createLabel(String name, GridPane gridPane, int gridPaneX, int gridPaneY) {
+        Label label = new Label(name);
+        GridPane.setHalignment(label, HPos.CENTER);
+        gridPane.add(label, gridPaneX, gridPaneY);
+    }
+    
+    private TableColumn<Person,String> createTableColumn(String columnName, String domainObjectPropertyName, double width) {
+        TableColumn<Person, String> column = new TableColumn<>(columnName);
+        column.setCellValueFactory(new PropertyValueFactory<Person, String>(domainObjectPropertyName));
+        column.setPrefWidth(width);
+        column.setEditable(true);
+        return column;
+    }
 }
