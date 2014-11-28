@@ -29,6 +29,13 @@ import javafx.stage.Stage;
  * | [label ] [   field   ] |
  * |             [ button ] |
  * +------------------------+
+ *
+ * +------------------------+
+ * | [0,0   ] [   1,0     ] |
+ * | [0,1   ] [   1,1     ] |
+ * |             [1,2     ] |
+ * +------------------------+
+ * 
  * </p>
  * Adding Controls To GridPane Layout
  * @author cdea
