@@ -69,12 +69,12 @@ public class HeroPicker extends Application {
         
         // Candidates
         final ObservableList<String> candidates = FXCollections.observableArrayList("Superman", "Spiderman", "Wolverine", "Police", "Fire Rescue", "Soldiers", "Dad & Mom", "Doctor", "Politician", "Pastor", "Teacher");
-        final ListView<String> candidatesListView = new ListView<>(candidates);
+        final ListView<String> candidatesListView = new ListView<>(candidates);         //创建View组件的时候，直接传入Model组件
         gridpane.add(candidatesListView, 0, 1);                                         //gridPane上 (0,1)坐标加candidatesListView 
         
         // heros
         final ObservableList<String> heroes = FXCollections.observableArrayList();
-        final ListView<String> heroListView = new ListView<>(heroes);                   
+        final ListView<String> heroListView = new ListView<>(heroes);                   //创建View组件的时候，直接传入Model组件
         gridpane.add(heroListView, 2, 1);                                               //gridPane上 (2,1)坐标加heroListView
         
         // select heroes
@@ -85,6 +85,7 @@ public class HeroPicker extends Application {
                 candidatesListView.getSelectionModel().clearSelection();                //如果选中的potential不为空，那么首先清掉选择
                 candidates.remove(potential);                                           //然后把potential从candidates list里面拿掉
                 heroes.add(potential);                                                  //放到heroes list里面
+                                                                                        //仅仅更新Model组件 - ObservableList的内容，那么View组件  - ListView就自动被更新了
             }
         });
         
@@ -93,7 +94,7 @@ public class HeroPicker extends Application {
         sendLeftButton.setOnAction(event -> {
             String notHero = heroListView.getSelectionModel().getSelectedItem();
             if (notHero != null) {
-                heroListView.getSelectionModel().clearSelection();
+                heroListView.getSelectionModel().clearSelection();                      //同上
                 heroes.remove(notHero);
                 candidates.add(notHero);
             }
