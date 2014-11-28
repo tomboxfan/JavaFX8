@@ -62,7 +62,10 @@ public class HeroPicker extends Application {
         
         //------------这段代码是这个程序的重点！！！！！-------------------------------------
         //heros和candidates是两个ObservableList
-        //直接使用ObservableList创建的ListVIew可以实时监测list里面的变化，reflect到UI上
+        //直接使用ObservableList创建的ListView可以实时监测list里面的变化，reflect到UI上
+        
+        //ListView是JavaFX UI Control, 是MVC中的View
+        //ObservableList是ListView后面的data, 是MVC中的Model        
         
         // Candidates
         final ObservableList<String> candidates = FXCollections.observableArrayList("Superman", "Spiderman", "Wolverine", "Police", "Fire Rescue", "Soldiers", "Dad & Mom", "Doctor", "Politician", "Pastor", "Teacher");
@@ -81,10 +84,11 @@ public class HeroPicker extends Application {
             if (potential != null) {
                 candidatesListView.getSelectionModel().clearSelection();                //如果选中的potential不为空，那么首先清掉选择
                 candidates.remove(potential);                                           //然后把potential从candidates list里面拿掉
-                heroes.add(potential);                                                  //放到heros list里面
+                heroes.add(potential);                                                  //放到heroes list里面
             }
         });
-        // deselect heroes
+        
+        // de-select heroes
         Button sendLeftButton = new Button(" < ");
         sendLeftButton.setOnAction(event -> {
             String notHero = heroListView.getSelectionModel().getSelectedItem();
