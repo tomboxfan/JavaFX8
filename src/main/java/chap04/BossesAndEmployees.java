@@ -48,22 +48,21 @@ public class BossesAndEmployees extends Application {
         listView.setMaxWidth(Double.MAX_VALUE);
         listView.setPrefHeight(150);
         
-        // display first and last name with tooltip using alias
-        listView.setCellFactory(param -> { //param是ListView, 这个方法必须要传出一个ListCell
-                    final Label label = new Label();
-                    final Tooltip tooltip = new Tooltip();
-                    final ListCell<Person> listCell = new ListCell<Person>() {
+        
+        //ListView的每一行都是一个Person对象。你必须要告诉ListView如何render每一行的text。
+        //cellFactory接受一个Functional Interface - CallBack<ListView<Person>, ListCell<String>>
+        //这个CallBack作用相当于, 我的这个List每行都是一个Person Object, 我还给你一个ListCell<String>
+        //我不知道为什么这个param参数根本没用
+        listView.setCellFactory(param -> { 
+                    return new ListCell<Person>() {
                         @Override public void updateItem(Person item, boolean empty) {
                             super.updateItem(item, empty);
                             if (item != null) {
-                                label.setText(item.getAliasName());
                                 setText(item.getFirstName() + " " + item.getLastName());
-                                tooltip.setText(item.getAliasName());
-                                setTooltip(tooltip);
+                                setTooltip(new Tooltip(item.getAliasName()));
                             }
                         }
                     };
-                    return listCell;
                 }
         );
         gridpane.add(listView, 0, 1);
