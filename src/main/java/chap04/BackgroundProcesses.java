@@ -44,6 +44,8 @@ public class BackgroundProcesses extends Application {
         //--布局代码 - 布局borderPane的Top部分-------------------------------------
         //Top里面放了一个HBox, 横着放着label / progressBar / progressIndicator
         final Label label = new Label("Files Transfer:");
+        
+        //progress监控有两个控件，ProgressBar和ProgressIndicator. 这两个控件在这个程序中统一展示---
         final ProgressBar progressBar = new ProgressBar(0);
         final ProgressIndicator progressIndicator = new ProgressIndicator(0);
 
@@ -88,6 +90,7 @@ public class BackgroundProcesses extends Application {
             copyWorker.messageProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 textArea.appendText(newValue + "\n");
             });
+            
             //--------------------------------------------------------------------------------------------
             
             new Thread(copyWorker).start();
@@ -115,6 +118,10 @@ public class BackgroundProcesses extends Application {
     }
 
     private Task<Boolean> createWorker(final int numFiles) {
+        
+        //注意：JavaFx Task就是一个Java Concurrecny的Future Task, 也就是一个Runnable. 因此可以如上面直接start -> new Thread(task).start();
+        //然后它的call()方法就开始执行了. 
+        //在MNJ Trading当中，也应该有一个PriceSyncTask, 每10s中执行一次，给所有的ticker那所有的price
         return new Task<Boolean>() {
             @Override protected Boolean call() throws Exception {
                 for (int i = 0; i < numFiles; i++) {
@@ -124,7 +131,12 @@ public class BackgroundProcesses extends Application {
                     String status = elapsedTime + " milliseconds";
                     // queue up status
                     updateMessage(status);
-                    updateProgress(i + 1, numFiles); // (progress, max)
+                    updateProgress(i + 1, numFiles); // (progress, max) --(完成了多少, 一共多少)
+                    
+                    //注意: task不仅仅可以update message / progress, 还可以updateValue，那么就是一个你自己定义的Busienss Object
+                    //你只要注册一个listener, 如下，那么你就可以更新你想要的field了
+                    //copyWorker.valueProperty().addListener(listener);
+                    //updateValue(null);
                 }
                 return true;
             }
