@@ -1,6 +1,7 @@
 package chap04;
 
 import java.util.Random;
+
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -19,7 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BackgroundProcesses extends Application {
-    static Task copyWorker;
+    static Task<Boolean> copyWorker;
     final int numFiles = 30;
 
     public static void main(String[] args) {
@@ -31,66 +32,91 @@ public class BackgroundProcesses extends Application {
         Scene scene = new Scene(root, 330, 120, Color.WHITE);
         primaryStage.setScene(scene);
         primaryStage.setTitle("BackgroundProcesses: Chapter 4 Background Processes");
-//�������ϣ�ȫ������----------------------------------------------------------------------------------------
-        
+        //从这往上，全都忽略----------------------------------------------------------------------------------------
+
+        //--布局代码 - 布局大的borderPane------------------------------------------
+        //就是一个大的BorderPane..
         BorderPane borderPane = new BorderPane();
         borderPane.layoutXProperty().bind(scene.widthProperty().subtract(borderPane.widthProperty()).divide(2));
         root.getChildren().add(borderPane);
+        //-------------------------------------------------------------------
+
+        //--布局代码 - 布局borderPane的Top部分-------------------------------------
+        //Top里面放了一个HBox, 横着放着label / progressBar / progressIndicator
         final Label label = new Label("Files Transfer:");
         final ProgressBar progressBar = new ProgressBar(0);
         final ProgressIndicator progressIndicator = new ProgressIndicator(0);
+
         final HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.setAlignment(Pos.CENTER);
         hbox.getChildren().addAll(label, progressBar, progressIndicator);
         borderPane.setTop(hbox);
+        //------------------------------------------------------------------
+
+        //--布局代码 - 布局borderPane的Bottom部分----------------------------------
+        //Bottom里面放了一个HBox, 横着放着startButton / cancelButton / textArea        
         final Button startButton = new Button("Start");
         final Button cancelButton = new Button("Cancel");
         final TextArea textArea = new TextArea();
         textArea.setEditable(false);
         textArea.setPrefSize(200, 70);
+
         final HBox hb2 = new HBox();
         hb2.setSpacing(5);
         hb2.setAlignment(Pos.CENTER);
         hb2.getChildren().addAll(startButton, cancelButton, textArea);
         borderPane.setBottom(hb2);
+        //------------------------------------------------------------------
+
         // wire up start button
         startButton.setOnAction((ActionEvent event) -> {
+
             startButton.setDisable(true);
-            progressBar.setProgress(0);
-            progressIndicator.setProgress(0);
-            textArea.setText("");
             cancelButton.setDisable(false);
+            textArea.setText("");
+
             copyWorker = createWorker(numFiles);
-            // wire up progress bar
-                progressBar.progressProperty().unbind();
-                progressBar.progressProperty().bind(copyWorker.progressProperty());
-                progressIndicator.progressProperty().unbind();
-                progressIndicator.progressProperty().bind(copyWorker.progressProperty());
-                // append to text area box
-                copyWorker.messageProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-                    textArea.appendText(newValue + "\n");
-                });
-                new Thread(copyWorker).start();
+
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(copyWorker.progressProperty());
+
+            progressIndicator.progressProperty().unbind();
+            progressIndicator.progressProperty().bind(copyWorker.progressProperty());
+
+            //这行代码是重点！！ - 当copyWorker的messageProperty变化的时候，直接update textArea的内容--------------------
+            copyWorker.messageProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                textArea.appendText(newValue + "\n");
             });
+            //--------------------------------------------------------------------------------------------
+            
+            new Thread(copyWorker).start();
+        });
+
         // cancel button will kill worker and reset.
         cancelButton.setOnAction((ActionEvent event) -> {
+
             startButton.setDisable(false);
             cancelButton.setDisable(true);
+
             copyWorker.cancel(true);
-            // reset
-                progressBar.progressProperty().unbind();
-                progressBar.setProgress(0);
-                progressIndicator.progressProperty().unbind();
-                progressIndicator.setProgress(0);
-                textArea.appendText("File transfer was cancelled.");
-            });
+
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+
+            progressIndicator.progressProperty().unbind();
+            progressIndicator.setProgress(0);
+
+            textArea.appendText("File transfer was cancelled.");
+
+        });
+
         primaryStage.show();
     }
 
-    private Task createWorker(final int numFiles) {
-        return new Task() {
-            @Override protected Object call() throws Exception {
+    private Task<Boolean> createWorker(final int numFiles) {
+        return new Task<Boolean>() {
+            @Override protected Boolean call() throws Exception {
                 for (int i = 0; i < numFiles; i++) {
                     long elapsedTime = System.currentTimeMillis();
                     copyFile("some file", "some dest file");
@@ -106,9 +132,9 @@ public class BackgroundProcesses extends Application {
     }
 
     private void copyFile(String src, String dest) throws InterruptedException {
-        // simulate a long time
         Random rnd = new Random(System.currentTimeMillis());
         long millis = rnd.nextInt(1000);
         Thread.sleep(millis);
     }
 }
+
