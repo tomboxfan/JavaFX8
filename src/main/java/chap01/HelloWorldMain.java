@@ -7,36 +7,61 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- * Ò»¸ö·Ç³£¼òµ¥µÄ°´Å¥Àý×Ó
+ * ä¸€ä¸ªéžå¸¸é‡è¦çš„è®²è§£groupå¸ƒå±€çš„ä¾‹å­ï¼
+ * 
+ * è®°ä½ï¼å½¢çŠ¶ / Text / Group æ˜¯ä¸å¯ç¼©æ”¾çš„ï¼›åœ¨å¸ƒå±€ä¸­è§†ä¸ºåˆšä½“ã€‚å› æ­¤ä½ å¦‚ä½•ç¼©æ”¾ï¼Œéƒ½ä¸ä¼šæ”¹å˜groupå†…éƒ¨nodesä¹‹é—´çš„ç›¸å¯¹ä½ç½®ã€‚
+ * 1) Groupå¹¶ä¸ä¼šè‡ªåŠ¨è°ƒæ•´nodeçš„ä½ç½®
+ * 2) ä½ éœ€è¦ç‰¹åˆ«çš„å‘Šè¯‰æ¯ä¸ªnodeçš„(x,y)åæ ‡ - setLayoutX() / setLayoutY(). å¦åˆ™å°±ç›´æŽ¥ç»™ä½ æ”¾åœ¨å·¦ä¸Šè§’  - å› æ­¤å¦‚æžœä½ æ²¡æœ‰è°ƒæ•´å¥½ï¼Œå°±æœ‰å¯èƒ½å¯¼è‡´nodeä¹‹é—´çš„è¦†ç›– - å¦‚ä¸‹é¢ä¾‹å­ä¸­çš„btn3 & btn4
+ * 
  */
 public class HelloWorldMain extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
     @Override public void start(Stage primaryStage) {
-        Group root = new Group();                           //1) µÚ1²ã - Group×öroot - ÄãËùÓÐµÄ¶«Î÷¶¼·Åµ½GroupÀïÃæ                     
-        Scene scene = new Scene(root, 300, 250);            //2) µÚ2²ã - Group·ÅÔÚsceneÀïÃæ                                    
-        primaryStage.setScene(scene);                       //3) µÚ3²ã - scene·ÅÔÚ´«ÈëµÄprimaryStageÀïÃæ                          
+        Group root = new Group();                           //1) ç¬¬1å±‚ - Groupåšroot - ä½ æ‰€æœ‰çš„ä¸œè¥¿éƒ½æ”¾åˆ°Groupé‡Œé¢                     
+        Scene scene = new Scene(root, 300, 250);            //2) ç¬¬2å±‚ - Groupæ”¾åœ¨sceneé‡Œé¢                                    
+        primaryStage.setScene(scene);                       //3) ç¬¬3å±‚ - sceneæ”¾åœ¨ä¼ å…¥çš„primaryStageé‡Œé¢                          
         primaryStage.setTitle("Hello World");
-//´ÓÕâÍùÉÏ£¬È«¶¼ºöÂÔ----------------------------------------------------------------------------------------        
+//ä»Žè¿™å¾€ä¸Šï¼Œå…¨éƒ½å¿½ç•¥----------------------------------------------------------------------------------------        
         
         
-        
-        
-        //--´´½¨°´Å¥µÄ±ê×¼Á÷³Ì-----------------------
+        //--åˆ›å»ºæŒ‰é’®çš„æ ‡å‡†æµç¨‹-----------------------
         Button btn = new Button();
         btn.setLayoutX(100);
         btn.setLayoutY(80);
         btn.setText("Hello World");
         btn.setOnAction(event -> System.out.println("Hello World"));
-        root.getChildren().add(btn);
+        
+        Button btn1 = new Button();
+        btn1.setLayoutX(200);
+        btn1.setLayoutY(80);
+        btn1.setText("Hello World1");
+        btn1.setOnAction(event -> System.out.println("Hello World1"));
+        
+        Button btn2 = new Button();
+        btn2.setLayoutX(300);
+        btn2.setLayoutY(80);
+        btn2.setText("Hello World2");
+        btn2.setOnAction(event -> System.out.println("Hello World2"));
+        
+        Button btn3 = new Button();
+        btn3.setText("Hello World3");
+        btn3.setOnAction(event -> System.out.println("Hello World3"));
+        
+        Button btn4 = new Button();
+        btn4.setText("Hello World4");
+        btn4.setLayoutX(30);
+        btn4.setOnAction(event -> System.out.println("Hello World4"));
+        
+        root.getChildren().addAll(btn, btn1, btn2, btn3, btn4);
         //------------------------------------
 
         
         
         
         
-//´ÓÕâÍùÏÂ£¬È«¶¼ºöÂÔ----------------------------------------------------------------------------------------        
+//ä»Žè¿™å¾€ä¸‹ï¼Œå…¨éƒ½å¿½ç•¥----------------------------------------------------------------------------------------        
         primaryStage.show();
     }
 }
