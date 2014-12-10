@@ -24,17 +24,17 @@ public class BossesAndEmployees extends Application {
         launch(args);
     }
     @Override public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();                         //1) µÚ1²ã - BorderPane×öroot - ÄãËùÓĞµÄ¶«Î÷¶¼·Åµ½BorderPaneÀïÃæ                     
-        Scene scene = new Scene(root, 500, 250, Color.WHITE);       //2) µÚ2²ã - BorderPane·ÅÔÚsceneÀïÃæ                                         
-        primaryStage.setScene(scene);                               //3) µÚ3²ã - scene·ÅÔÚ´«ÈëµÄprimaryStageÀïÃæ                                    
+        BorderPane root = new BorderPane();                         //1) ç¬¬1å±‚ - BorderPaneåšroot - ä½ æ‰€æœ‰çš„ä¸œè¥¿éƒ½æ”¾åˆ°BorderPaneé‡Œé¢                     
+        Scene scene = new Scene(root, 500, 250, Color.WHITE);       //2) ç¬¬2å±‚ - BorderPaneæ”¾åœ¨sceneé‡Œé¢                                         
+        primaryStage.setScene(scene);                               //3) ç¬¬3å±‚ - sceneæ”¾åœ¨ä¼ å…¥çš„primaryStageé‡Œé¢                                    
         primaryStage.setTitle("Bosses and Employees: Chapter 4 Working with Tables");
-//´ÓÕâÍùÉÏ£¬È«¶¼ºöÂÔ----------------------------------------------------------------------------------------                  
+//ä»è¿™å¾€ä¸Šï¼Œå…¨éƒ½å¿½ç•¥----------------------------------------------------------------------------------------                  
         
         // create a grid pane
         GridPane gridpane = new GridPane(); 
-        gridpane.setPadding(new Insets(5));     //ÍâÃæÓĞÒ»¸ö5¹«·ÖµÄ¿ò¿ò
-        gridpane.setHgap(10);                   //Ë®Æ½cell¼ä¸ô10¹«·Ö
-        gridpane.setVgap(10);                   //´¹Ö±cell¼ä¸ô10¹«·Ö
+        gridpane.setPadding(new Insets(5));     //å¤–é¢æœ‰ä¸€ä¸ª5å…¬åˆ†çš„æ¡†æ¡†
+        gridpane.setHgap(10);                   //æ°´å¹³cellé—´éš”10å…¬åˆ†
+        gridpane.setVgap(10);                   //å‚ç›´cellé—´éš”10å…¬åˆ†
         root.setCenter(gridpane);
         
         
@@ -42,17 +42,17 @@ public class BossesAndEmployees extends Application {
         createLabel("Boss", gridpane, 0, 0);
         
         // List of leaders
-        ObservableList<Person> observableList = getPeople();                           //ObservableListºÍListView¾ø¶ÔÊÇ¾øÅä
+        ObservableList<Person> observableList = getPeople();                           //ObservableListå’ŒListViewç»å¯¹æ˜¯ç»é…
         ListView<Person> listView = new ListView<>(observableList);
         listView.setPrefWidth(150);
         listView.setMaxWidth(Double.MAX_VALUE);
         listView.setPrefHeight(150);
         
         
-        //ListViewµÄÃ¿Ò»ĞĞ¶¼ÊÇÒ»¸öPerson¶ÔÏó¡£Äã±ØĞëÒª¸æËßListViewÈçºÎrenderÃ¿Ò»ĞĞµÄtext¡£
-        //cellFactory½ÓÊÜÒ»¸öFunctional Interface - CallBack<ListView<Person>, ListCell<Person>>
-        //Õâ¸öCallBack×÷ÓÃÏàµ±ÓÚ, ÎÒµÄÕâ¸öListÃ¿ĞĞ¶¼ÊÇÒ»¸öPerson Object, ÎÒ»¹¸øÄãÒ»¸öListCell<Person>
-        //ÎÒ²»ÖªµÀÎªÊ²Ã´Õâ¸öparam²ÎÊı¸ù±¾Ã»ÓÃ
+        //ListViewçš„æ¯ä¸€è¡Œéƒ½æ˜¯ä¸€ä¸ªPersonå¯¹è±¡ã€‚ä½ å¿…é¡»è¦å‘Šè¯‰ListViewå¦‚ä½•renderæ¯ä¸€è¡Œçš„textã€‚
+        //cellFactoryæ¥å—ä¸€ä¸ªFunctional Interface - CallBack<ListView<Person>, ListCell<Person>>
+        //è¿™ä¸ªCallBackä½œç”¨ç›¸å½“äº, æˆ‘çš„è¿™ä¸ªListæ¯è¡Œéƒ½æ˜¯ä¸€ä¸ªPerson Object, æˆ‘è¿˜ç»™ä½ ä¸€ä¸ªListCell<Person>
+        //æˆ‘ä¸çŸ¥é“ä¸ºä»€ä¹ˆè¿™ä¸ªparamå‚æ•°æ ¹æœ¬æ²¡ç”¨
         listView.setCellFactory(param -> { 
                     return new ListCell<Person>() {
                         @Override public void updateItem(Person item, boolean empty) {
@@ -85,7 +85,7 @@ public class BossesAndEmployees extends Application {
             if (observable != null && observable.getValue() != null) {
                 observableListTeamMember.clear();
                 observableListTeamMember.addAll(observable.getValue().employeesProperty());
-                //»òÕß
+                //æˆ–è€…
                 //observableListTeamMember.addAll(newValue.employeesProperty());
             }
         });
