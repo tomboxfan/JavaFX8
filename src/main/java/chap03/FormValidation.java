@@ -25,9 +25,9 @@ import javafx.stage.StageStyle;
 
 /**
  * A login form to demonstrate lambdas, properties and bindings.
- * Õâ¸ö³ÌĞòÊÇµÚÈıÕÂÊÕÎ²³ÌĞò£¬¿Ï¶¨»áÏà¶Ô¸´ÔÓ¡£
+ * è¿™ä¸ªç¨‹åºæ˜¯ç¬¬ä¸‰ç« æ”¶å°¾ç¨‹åºï¼Œè‚¯å®šä¼šç›¸å¯¹å¤æ‚ã€‚
  * 
- * Õâ¸ö³ÌĞòÖ÷ÒªÊÇÑİÊ¾JavaFX PropertiesÓëUI ControlsÖ®¼äµÄBinding
+ * è¿™ä¸ªç¨‹åºä¸»è¦æ˜¯æ¼”ç¤ºJavaFX Propertiesä¸UI Controlsä¹‹é—´çš„Binding
  * 
  */
 public class FormValidation extends Application {
@@ -35,24 +35,20 @@ public class FormValidation extends Application {
         launch(args);
     }
     
-    //³£Á¿¶¨Òå --------------------------------------------
+    //å¸¸é‡å®šä¹‰ --------------------------------------------
     private final static String MY_PASS = "password1";
     private final static int MAX_ATTEMPTS = 3;
     //--------------------------------------------------
     
-    private final static BooleanProperty GRANTED_ACCESS = new SimpleBooleanProperty(false); //Ö÷ÒªÊÇÕâ¸ö±äÁ¿±»¶ÔºÅµÄvisibilityÊôĞÔ°ó¶¨£»µ±ÓÃ»§ÊäÈëµÄÃÜÂëÕıÈ·µÄÊ±ºò£¬Õâ¸ö±äÁ¿»á±ä³Étrue£¬ÂÌÉ«¶ÔºÅÒ²»á¸ú×ÅÏÔÊ¾¡£
-    private final IntegerProperty ATTEMPTS = new SimpleIntegerProperty(0); //¼ÇÂ¼µ±Ç°userÒÑ¾­³¢ÊÔµÇÂ½¼¸´ÎÁË
+    private final static BooleanProperty GRANTED_ACCESS = new SimpleBooleanProperty(false); //ä¸»è¦æ˜¯è¿™ä¸ªå˜é‡è¢«å¯¹å·çš„visibilityå±æ€§ç»‘å®šï¼›å½“ç”¨æˆ·è¾“å…¥çš„å¯†ç æ­£ç¡®çš„æ—¶å€™ï¼Œè¿™ä¸ªå˜é‡ä¼šå˜æˆtrueï¼Œç»¿è‰²å¯¹å·ä¹Ÿä¼šè·Ÿç€æ˜¾ç¤ºã€‚
+    private final IntegerProperty ATTEMPTS = new SimpleIntegerProperty(0); //è®°å½•å½“å‰userå·²ç»å°è¯•ç™»é™†å‡ æ¬¡äº†
 
     @Override public void start(Stage primaryStage) {
-        Group root = new Group();                                           //1) µÚ1²ã - Group×öroot - ÄãËùÓĞµÄ¶«Î÷¶¼·Åµ½GroupÀïÃæ                     
-        Scene scene = new Scene(root, 320, 112, Color.rgb(0, 0, 0, 0));     //2) µÚ2²ã - Group·ÅÔÚsceneÀïÃæ                                    
-        primaryStage.setScene(scene);                                       //3) µÚ3²ã - scene·ÅÔÚ´«ÈëµÄprimaryStageÀïÃæ                          
-        primaryStage.initStyle(StageStyle.TRANSPARENT);                     //ÓëÒÔÍùµÄ³ÌĞò²»Í¬¡£Æ½Ê±¶¼ÊÇset title, ÕâÀïÃ»ÓĞset title, ¶øÊÇÉèÖÃstageÊÇÍ¸Ã÷µÄ£¬Õâ¾ä»°ÓĞµã¶ù¿´Í·¡£
-//--ÕâÖ®Ç°³ıÁË±äÁ¿¶¨Òå²¿·Ö£¬»¹ÓĞ¸øprimaryStageÉèÖÃÍ¸Ã÷£¬ÈÔ¾ÉËãÊÇboilerplate code -------------------------------------------
-        
-        
-        
-
+        Group root = new Group();                                           //1) ç¬¬1å±‚ - Groupåšroot - ä½ æ‰€æœ‰çš„ä¸œè¥¿éƒ½æ”¾åˆ°Groupé‡Œé¢                     
+        Scene scene = new Scene(root, 320, 112, Color.rgb(0, 0, 0, 0));     //2) ç¬¬2å±‚ - Groupæ”¾åœ¨sceneé‡Œé¢                                    
+        primaryStage.setScene(scene);                                       //3) ç¬¬3å±‚ - sceneæ”¾åœ¨ä¼ å…¥çš„primaryStageé‡Œé¢                          
+        primaryStage.initStyle(StageStyle.TRANSPARENT);                     //ä¸ä»¥å¾€çš„ç¨‹åºä¸åŒã€‚å¹³æ—¶éƒ½æ˜¯set title, è¿™é‡Œæ²¡æœ‰set title, è€Œæ˜¯è®¾ç½®stageæ˜¯é€æ˜çš„ï¼Œè¿™å¥è¯æœ‰ç‚¹å„¿çœ‹å¤´ã€‚
+//--è¿™ä¹‹å‰é™¤äº†å˜é‡å®šä¹‰éƒ¨åˆ†ï¼Œè¿˜æœ‰ç»™primaryStageè®¾ç½®é€æ˜ï¼Œä»æ—§ç®—æ˜¯boilerplate code -------------------------------------------
         
         // create a model representing a user
         User user = new User();
@@ -72,19 +68,19 @@ public class FormValidation extends Application {
 
         
         
-        //--µÚ1ĞĞUI´úÂë¿ªÊ¼--------------------------------------------------------------------------------------------------------------
-        //--µÚ1ĞĞÖ÷ÒªÓĞÁ½¸öÔªËØ - Ò»¸öÊÇÓÃ»§Ãû£¬ »¹ÓĞÔÚ×îÓÒ±ßÓĞÒ»¸öĞ¡ËøÍ·¡£ÔõÃ´±£Ö¤Ğ¡ËøÍ·Ò»Ö±ÔÚ×îÓÒ±ß£¿½«Ò»¸öHBoxµÄ¿í¶ÈºÍÕû¸öUIµÄ¿í¶È°ó¶¨ÔÚÒ»Æğ£¬ÕâÑù¾Í±£Ö¤Ğ¡ËøÍ·Ò»Ö±ÔÚ×îÓÒ±ß
+        //--ç¬¬1è¡ŒUIä»£ç å¼€å§‹--------------------------------------------------------------------------------------------------------------
+        //--ç¬¬1è¡Œä¸»è¦æœ‰ä¸¤ä¸ªå…ƒç´  - ä¸€ä¸ªæ˜¯ç”¨æˆ·åï¼Œ è¿˜æœ‰åœ¨æœ€å³è¾¹æœ‰ä¸€ä¸ªå°é”å¤´ã€‚æ€ä¹ˆä¿è¯å°é”å¤´ä¸€ç›´åœ¨æœ€å³è¾¹ï¼Ÿå°†ä¸€ä¸ªHBoxçš„å®½åº¦å’Œæ•´ä¸ªUIçš„å®½åº¦ç»‘å®šåœ¨ä¸€èµ·ï¼Œè¿™æ ·å°±ä¿è¯å°é”å¤´ä¸€ç›´åœ¨æœ€å³è¾¹
         
         // a read only field holding the user name.
         Text userName = new Text();
         userName.setFont(Font.font("SanSerif", FontWeight.BOLD, 30));
         userName.setFill(foregroundColor);
         userName.setSmooth(true);
-        userName.textProperty().bind(user.userNameProperty()); //½«TextµÄÊôĞÔÖµºÍdomain¶ÔÏóuserµÄuserNameProperty°ó¶¨ÆğÀ´
+        userName.textProperty().bind(user.userNameProperty()); //å°†Textçš„å±æ€§å€¼å’Œdomainå¯¹è±¡userçš„userNamePropertyç»‘å®šèµ·æ¥
 
         // wrap text node
         HBox userNameCell = new HBox();
-        userNameCell.prefWidthProperty().bind(primaryStage.widthProperty().subtract(45)); //½«HBoxµÄ¿í¶ÈºÍprimaryStageµÄ¿í¶È°ó¶¨ÆğÀ´£¬ ÓÀÔ¶±£Ö¤HBox±ÈÕû¸öStageÕ­45¸öµ¥Î»¡£ÕâÑù¾Í±£Ö¤UIÉÏµÄĞ¡ËøÍ·Ò»Ö±ÔÚ×îÓÒ±ß¡£
+        userNameCell.prefWidthProperty().bind(primaryStage.widthProperty().subtract(45)); //å°†HBoxçš„å®½åº¦å’ŒprimaryStageçš„å®½åº¦ç»‘å®šèµ·æ¥ï¼Œ æ°¸è¿œä¿è¯HBoxæ¯”æ•´ä¸ªStageçª„45ä¸ªå•ä½ã€‚è¿™æ ·å°±ä¿è¯UIä¸Šçš„å°é”å¤´ä¸€ç›´åœ¨æœ€å³è¾¹ã€‚
         userNameCell.getChildren().add(userName);
 
         // pad lock 
@@ -94,13 +90,11 @@ public class FormValidation extends Application {
 
         HBox row1 = new HBox();
         row1.getChildren().addAll(userNameCell, padLock);
-        //--µÚ1ĞĞUI´úÂë½áÊø------------------------------------------------------------------------------------------------------------------------------
+        //--ç¬¬1è¡ŒUIä»£ç ç»“æŸ------------------------------------------------------------------------------------------------------------------------------
         
         
-        
-        
-        //--µÚ2ĞĞUI´úÂë¿ªÊ¼--------------------------------------------------------------------------------------------------------------
-        //--µÚ2ĞĞÖ÷ÒªÓĞÁ½¸öÔªËØ - Ò»¸öÊÇÓÃ»§ÊäÈëµÄÃÜÂë¿ò£¬ »¹ÓĞÒ»¸öÔÚÃÜÂë¿òÓÒ±ßÏÔÊ¾µÄÂÌÉ«¶ÔºÅ£¬»òÕßºìÉ«´íºÅ        
+        //--ç¬¬2è¡ŒUIä»£ç å¼€å§‹--------------------------------------------------------------------------------------------------------------
+        //--ç¬¬2è¡Œä¸»è¦æœ‰ä¸¤ä¸ªå…ƒç´  - ä¸€ä¸ªæ˜¯ç”¨æˆ·è¾“å…¥çš„å¯†ç æ¡†ï¼Œ è¿˜æœ‰ä¸€ä¸ªåœ¨å¯†ç æ¡†å³è¾¹æ˜¾ç¤ºçš„ç»¿è‰²å¯¹å·ï¼Œæˆ–è€…çº¢è‰²é”™å·        
         
         // password text field 
         PasswordField passwordField = new PasswordField();
@@ -110,7 +104,7 @@ public class FormValidation extends Application {
         passwordField.prefWidthProperty().bind(primaryStage.widthProperty().subtract(55));
         user.passwordProperty().bind(passwordField.textProperty());
 
-        //deniedIconÊÇºìÉ«´íºÅ---------------------------------------
+        //deniedIconæ˜¯çº¢è‰²é”™å·---------------------------------------
         SVGPath deniedIcon = new SVGPath(); 
         deniedIcon.setFill(Color.rgb(255, 0, 0, .9));
         deniedIcon.setStroke(Color.WHITE);// 
@@ -118,7 +112,7 @@ public class FormValidation extends Application {
         deniedIcon.setVisible(false);
         //--------------------------------------------------------
         
-        //grantedIconÊÇÂÌÉ«¶ÔºÅ---------------------------------------
+        //grantedIconæ˜¯ç»¿è‰²å¯¹å·---------------------------------------
         SVGPath grantedIcon = new SVGPath();  
         grantedIcon.setFill(Color.rgb(0, 255, 0, .9));
         grantedIcon.setStroke(Color.WHITE);// 
@@ -126,24 +120,24 @@ public class FormValidation extends Application {
         grantedIcon.setVisible(false);
         //--------------------------------------------------------
         
-        StackPane accessIndicator = new StackPane(); //Õâ¸öPaneºÜÖØÒª£¬Ëü°ÑËüÀïÃæµÄ×é¼şÏóÆË¿ËÅÆÒ»Ñù´ÓºóÍùÇ°µşÔÚÒ»Æğ
+        StackPane accessIndicator = new StackPane(); //è¿™ä¸ªPaneå¾ˆé‡è¦ï¼Œå®ƒæŠŠå®ƒé‡Œé¢çš„ç»„ä»¶è±¡æ‰‘å…‹ç‰Œä¸€æ ·ä»åå¾€å‰å åœ¨ä¸€èµ·
         
         accessIndicator.getChildren().addAll(deniedIcon, grantedIcon);
         accessIndicator.setAlignment(Pos.CENTER_RIGHT);
 
-        grantedIcon.visibleProperty().bind(GRANTED_ACCESS); //ÖØµã£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡
+        grantedIcon.visibleProperty().bind(GRANTED_ACCESS); //é‡ç‚¹ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 
         // second row
         HBox row2 = new HBox(3);
         row2.getChildren().addAll(passwordField, accessIndicator);
         HBox.setHgrow(accessIndicator, Priority.ALWAYS);
-        //--µÚ2ĞĞUI´úÂë½áÊø------------------------------------------------------------------------------------------------------------------------------
+        //--ç¬¬2è¡ŒUIä»£ç ç»“æŸ------------------------------------------------------------------------------------------------------------------------------
         
         
-        //---¶¯×÷´úÂë¿ªÊ¼----------------------------------------------------------------------------------------------
+        //---åŠ¨ä½œä»£ç å¼€å§‹----------------------------------------------------------------------------------------------
         
         // user hits the enter key
-        passwordField.setOnAction(actionEvent -> { //µ±ÓÃ»§ÇÃ»Ø³µµÄÊ±ºò£¬Õâ¸ö·½·¨±»µ÷ÓÃ
+        passwordField.setOnAction(actionEvent -> { //å½“ç”¨æˆ·æ•²å›è½¦çš„æ—¶å€™ï¼Œè¿™ä¸ªæ–¹æ³•è¢«è°ƒç”¨
             if (GRANTED_ACCESS.get()) {
                 System.out.printf("User %s is granted access.\n", user.getUserName());
                 System.out.printf("User %s entered the password: %s\n", user.getUserName(), user.getPassword());
@@ -152,14 +146,14 @@ public class FormValidation extends Application {
             else {
                 deniedIcon.setVisible(true);
             }
-            ATTEMPTS.set(ATTEMPTS.add(1).get()); //JavaFX property×ÔÔöºÃ¸´ÔÓ£¡
+            ATTEMPTS.set(ATTEMPTS.add(1).get()); //JavaFX propertyè‡ªå¢å¥½å¤æ‚ï¼
             System.out.println("Attempts: " + ATTEMPTS.get());
         });
         
         
-        //×¢ÒâÕâÀïµÄ¸ñÊ½ - addListener((obv, ov, nv) -> .... ÕâÊÇ±ê×¼µÄChangeListener
+        //æ³¨æ„è¿™é‡Œçš„æ ¼å¼ - addListener((obv, ov, nv) -> .... è¿™æ˜¯æ ‡å‡†çš„ChangeListener
         // listener when the user types into the password field
-        passwordField.textProperty().addListener((obs, ov, nv) -> { //Ã¿µ±passwordFieldµÄÖµ¸Ä±ä£¬Õâ¸ö·½·¨¶¼»á±»µ÷ÓÃ¡£µ±ÓÃ»§ÇÃ¶ÔÃÜÂë£¬²»ĞèÒªÇÃ»Ø³µµÄÊ±ºò£¬¶ÔºÅÒÑ¾­ÏÔÊ¾ÁË¡£
+        passwordField.textProperty().addListener((obs, ov, nv) -> { //æ¯å½“passwordFieldçš„å€¼æ”¹å˜ï¼Œè¿™ä¸ªæ–¹æ³•éƒ½ä¼šè¢«è°ƒç”¨ã€‚å½“ç”¨æˆ·æ•²å¯¹å¯†ç ï¼Œä¸éœ€è¦æ•²å›è½¦çš„æ—¶å€™ï¼Œå¯¹å·å·²ç»æ˜¾ç¤ºäº†ã€‚
             boolean granted = passwordField.getText().equals(MY_PASS);
             GRANTED_ACCESS.set(granted);
             if (granted) {
@@ -167,7 +161,7 @@ public class FormValidation extends Application {
             }
         });
 
-        //×¢ÒâÕâÀïµÄ¸ñÊ½ - addListener((obv, ov, nv) -> .... ÕâÊÇ±ê×¼µÄChangeListener
+        //æ³¨æ„è¿™é‡Œçš„æ ¼å¼ - addListener((obv, ov, nv) -> .... è¿™æ˜¯æ ‡å‡†çš„ChangeListener
         // listener on number of attempts
         ATTEMPTS.addListener((obs, ov, nv) -> {
             if (MAX_ATTEMPTS == nv.intValue()) {
@@ -176,11 +170,10 @@ public class FormValidation extends Application {
                 Platform.exit();
             }
         });
+        //--åŠ¨ä½œä»£ç ç»“æŸ-------------------------------------------------------------------------------------
         
-        //--¶¯×÷´úÂë½áÊø-------------------------------------------------------------------------------------
         
-        
-        //--×îÖÕ´óµÄ²¼¾Ö´úÂë------------------------------------------
+        //--æœ€ç»ˆå¤§çš„å¸ƒå±€ä»£ç ------------------------------------------
         VBox formLayout = new VBox(4);
         formLayout.getChildren().addAll(row1, row2);
         formLayout.setLayoutX(12);
@@ -190,9 +183,7 @@ public class FormValidation extends Application {
         
         
         
-        
-        
-//´ÓÕâÍùÏÂ£¬È«¶¼ºöÂÔ----------------------------------------------------------------------------------------            
+//ä»è¿™å¾€ä¸‹ï¼Œå…¨éƒ½å¿½ç•¥----------------------------------------------------------------------------------------            
         primaryStage.show();
     }
 }

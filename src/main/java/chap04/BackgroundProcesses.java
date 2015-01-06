@@ -32,7 +32,7 @@ public class BackgroundProcesses extends Application {
         Scene scene = new Scene(root, 330, 120, Color.WHITE);
         primaryStage.setScene(scene);
         primaryStage.setTitle("BackgroundProcesses: Chapter 4 Background Processes");
-        //从这往上，全都忽略----------------------------------------------------------------------------------------
+//从这往上，全都忽略----------------------------------------------------------------------------------------
 
         //--布局代码 - 布局大的borderPane------------------------------------------
         //就是一个大的BorderPane..
